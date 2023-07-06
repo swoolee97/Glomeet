@@ -20,5 +20,4 @@ App = () => {
     </NavigationContainer>
   );
 }
-
 export default App;
