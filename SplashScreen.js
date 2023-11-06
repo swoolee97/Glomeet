@@ -8,7 +8,7 @@ const SplashScreen = ({navigation}) => {
 
     useEffect(()=>{
         setTimeout(()=>{
-            navigation.replace('Main')
+            navigation.replace('WelcomeScreen')
         },2000)
     })
     

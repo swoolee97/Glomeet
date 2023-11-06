@@ -38,13 +38,13 @@ const MatchingLoading = ({navigation}) => {
 
                 <View style={styles.rowContainer}>
                     <Text style={styles.rowTitle}>글 제목</Text>
-                    <Text style={styles.rowContent}>테니스 치실 분</Text>
+                    <Text style={styles.rowContent}>Let's study at a cafe</Text>
                 </View>
                 
                 <View style={styles.rowContainer}>
                     <Text style={styles.rowTitle}>키워드</Text>
                     <View style={styles.rowcontain}>
-                        <Text style={styles.rowContentToggle}>운동</Text>
+                        <Text style={styles.rowContentToggle}>문화</Text>
                     </View>
                     
                 </View>
