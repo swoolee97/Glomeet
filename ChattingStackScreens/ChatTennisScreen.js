@@ -16,6 +16,36 @@ const ChatTennisScreen = ({navigation }) => {
         setSelectedCategory(category);
     };
     const [messages, setMessages] = useState([]);
+    const goBackAndUpdateChatList = async () => {
+        // 새로운 채팅 데이터
+        const newChatData = {
+            id: 'newChatId', // 고유한 ID를 생성해야 합니다.
+            name: 'Tennis CLUB',
+            tags: ['#테니스', '#스포츠', '#운동'], // 새로운 채팅의 태그를 추가합니다.
+            image: require('../images/tennis_group.png'), // 새로운 채팅의 이미지입니다.
+            message: '테니스 클럽 모임이 생성되었습니다.', // 마지막 메시지 내용입니다.
+            time: 'Now', // 현재 시간으로 설정합니다.
+            unread: 0, // 안 읽은 메시지의 수입니다.
+        };
+
+        // AsyncStorage에 새로운 채팅 데이터를 추가하는 로직을 구현합니다.
+        try {
+            const chatsString = await AsyncStorage.getItem('chats');
+            const chats = chatsString ? JSON.parse(chatsString) : [];
+            chats.push(newChatData);
+            await AsyncStorage.setItem('chats', JSON.stringify(chats));
+        } catch (error) {
+            console.error('AsyncStorage Error: ', error);
+        }
+
+        // 채팅 목록 업데이트 후 이전 화면으로 이동
+        navigation.navigate('채팅', {
+            screen: 'ChattingScreen',
+            params: {
+                newChatData: newChatData // passing the new chat data as a parameter
+              },
+        });
+    };
 
     useEffect(() => {
         const loadMessages = async () => {
@@ -33,8 +63,7 @@ const ChatTennisScreen = ({navigation }) => {
         navigation.setOptions({
             headerTitle: chat.name,
             headerLeft: () => (
-                <TouchableOpacity onPress={() => navigation.navigate('채팅', {
-                    screen: 'ChattingScreen'})}>
+                <TouchableOpacity onPress={goBackAndUpdateChatList}>
                     <Image source={backicon} style={{width: 9, height: 18, margin: 20}} />
                 </TouchableOpacity>
             ),

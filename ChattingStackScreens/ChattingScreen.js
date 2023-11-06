@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, SafeAreaView, Image, ScrollView } from "react-native";
-import Swipeout from 'react-native-swipeout';
 import { useNavigation } from '@react-navigation/native';
 import search from '../images/Search.png'
 // import styles from '../Styles/Styles.js';
@@ -8,7 +7,7 @@ import search from '../images/Search.png'
 
 
 
-const ChattingScreen = () => {
+const ChattingScreen = ({route }) => {
     
     const navigation = useNavigation();
 
@@ -20,6 +19,17 @@ const ChattingScreen = () => {
     const selectChatRoom = (chat) => {
         navigation.navigate('ChatDetailScreen', { chatName: chat.name });
     }
+    const [groupchats, addNewGroupChat] = useState([
+        { id: 'B1', name: 'Ping Pong (;', tags: ['#운동', '#탁구', '#친목'], image: require('../images/pingpong.png'), message: 'Until what time can I go?', time: '11:31', unread: 3 },
+        { id: 'B3', name: 'LOL rank', tags: ['#경영학과', '#롤', '#게임'], image: require('../images/meetinggame.png'), message: 'A new game has been released!', time: '10:38', unread: 4 },
+      ]);
+    
+    useEffect(() => {
+        if (route.params?.newChatData) { // 새로운 채팅 데이터가 있는지 확인
+            const newChatData = route.params.newChatData;
+            addNewGroupChat(prevGroupChats => [newChatData, ...prevGroupChats]); // 기존 데이터에 새 데이터를 추가
+        }
+    }, [route.params?.newChatData]);
     // 가상의 대화 데이터
     const chats = [
         { id: 'A1', name: 'Toans', tags: ['#경영학과', '#남자', '#외향', '#축구'], image: require('../images/boy.png'), message: ['Hi, my name is Toans'], time: '12:33', unread: 1 },
@@ -29,13 +39,7 @@ const ChattingScreen = () => {
         { id: 'A5', name: 'Kate', tags: ['#약학과', '#여자', '#외향', '#수영'], image: require('../images/chat_char2.png'), message: 'Do you know where the gym is?', time: '10/01', unread: 0 },
     ];
 
-    const groupchats = [
-        { id: 'B1', name: 'Shopping together (;', tags: ['#간호학과', '#쇼핑', '#친목'], image: require('../images/AjouLogo.png'), message: 'Who wants to go shopping today?', time: '11:31', unread: 3 },
-        { id: 'B2', name: 'Cook Group Chat', tags: ['#경영학과', '#음식', '#요리', '#술'], image: require('../images/meeting.png'), message: "I'm glad to see you.", time: '11:25', unread: 2 },
-        { id: 'B3', name: 'Game Room', tags: ['#경영학과', '#음식', '#게임'], image: require('../images/Main.png'), message: 'A new game has been released!', time: '09:38', unread: 4 },
-        { id: 'B4', name: "Let's sing", tags: ['#전자과', '#친목', '#노래'], image: require('../images/chatting.png'), message: 'Who wants to sing with me?', time: '10:25', unread: 13 },
-        { id: 'B5', name: 'Drink', tags: ['#이비즈', '#친목', '#음식', '#술'], image: require('../images/Matching.png'), message: 'A new bar opened today', time: '10:23', unread: 0 },
-    ];
+   
 
     return(
         <SafeAreaView style= {styles.container}>
